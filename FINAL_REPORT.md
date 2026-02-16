@@ -11,6 +11,7 @@ This is my first portfolio website. It shows my skills, projects, and contact in
 
 
 **Features**
+
 Website works on mobile and computer
 Clean and simple design
 Shows my projects
@@ -20,43 +21,16 @@ Live website on GitHub Pages
 
 
 **Technologies Used:**
-HTML: To make the website structure
-CSS: To style the website
-JavaScript: To make website interactive
-Git & GitHub: To save and publish my project online
 
+ HTML
+ CSS
+ JavaScript
+ Git & GitHub
 
-**My GitHub Link**
+ GitHub Link:
 https://github.com/jayabhute/personal-portfolio-SPCL
 
 **Live Website Link**
 https://jayabhute.github.io/personal-portfolio-SPCL/
-
-
-Final Portfolio Task
-
-Name: Tina Ramwani
-Task: Personal Portfolio Website
-Start Date: 16/02/2026
-Submission Date: 23/02/2026
-
-Project Description: This portfolio website showcases my technical skills, projects, and contact details in a professional and responsive layout.
-
-Features:
-
-Fully responsive design
-Interactive UI with animations
-Project showcase section
-Functional contact form with validation
-GitHub Pages live deployment
-Technologies Used:
-
-HTML5
-CSS3
-JavaScript
-Git & GitHub
-GitHub Link: https://github.com/yourusername/personal-portfolio-spcl
-
-Live Project Link: https://yourusername.github.io/personal-portfolio-spcl/
 
 
