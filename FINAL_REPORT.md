@@ -33,4 +33,13 @@ https://github.com/jayabhute/personal-portfolio-SPCL
 **Live Website Link**
 https://jayabhute.github.io/personal-portfolio-SPCL/
 
+# My Portfolio
+
+ Features
+- Responsive design
+- Simple and clean UI
+- Project showcase section
+- Contact section
+
+
 
