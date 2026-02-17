@@ -5,7 +5,7 @@ In Time: 3:00 PM
 Out Time: 6:00 PM
 Name: Jaya Bhute
 
-Progress Summary:
+**Progress Summary:**
 
 Created GitHub repository.
 
@@ -29,7 +29,7 @@ Daily Report file
 
 Added MIT License to the repository.
 
-Required Upgrades:
+**Required Upgrades:**
 
 Improve homepage UI design.
 
@@ -39,4 +39,4 @@ Add Projects section.
 
 Add Contact Form.
 
-GitHub Frontend Link https://github.com/jayabhute/personal-portfolio-SPCL
+**GitHub Frontend Link**: https://github.com/jayabhute/personal-portfolio-SPCL
