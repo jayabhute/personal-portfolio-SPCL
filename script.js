@@ -60,3 +60,29 @@ window.addEventListener('scroll', () => {
     window.scrollY > 30 ? '0 4px 10px rgba(0,0,0,0.2)' : 'none';
 });
 
+ ===============================
+   SKILLS BAR ANIMATION
+================================ */
+const skillsSection = document.querySelector('.skills-section');
+const skillBars = document.querySelectorAll('.fill');
+let skillsDone = false;
+
+window.addEventListener('scroll', () => {
+  if (!skillsSection) return;
+
+  const sectionTop = skillsSection.getBoundingClientRect().top;
+  const screenHeight = window.innerHeight / 1.2;
+
+  if (sectionTop < screenHeight && !skillsDone) {
+    skillBars.forEach(bar => {
+      const finalWidth = bar.style.width;
+      bar.style.width = '0';
+      setTimeout(() => {
+        bar.style.transition = 'width 1.5s ease';
+        bar.style.width = finalWidth;
+      }, 100);
+    });
+    skillsDone = true;
+  }
+});
+
