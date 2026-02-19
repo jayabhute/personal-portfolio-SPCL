@@ -156,4 +156,74 @@ body {
     }
 }
 
+/* Skills Section Background */
+.skills-section {
+  background: #5798e1;
+  padding: 80px 20px;
+}
+
+/* White Card */
+.skills-card {
+  background: #fff;
+  max-width: 1100px;
+  margin: auto;
+  padding: 50px;
+  border-radius: 25px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* Heading */
+.skills-card h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 28px;
+}
+
+.skills-card h2 span {
+  color:#5798e1;
+}
+
+/* Grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px 60px;
+}
+
+/* Skill Item */
+.skill-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+/* Progress Bar */
+.bar {
+  width: 100%;
+  height: 6px;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.fill {
+  height: 100%;
+  background: #5798e1;
+  border-radius: 5px;
+}
+
+/* Colors */
+.red { color: #ff4d4d; }
+.green { color: #2ecc71; }
+.cyan { color: #00d2d3; }
+.blue { color: #0a19ff; }
+.orange { color: #ff6b6b; }
+.yellow { color: #f1c40f; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+}
 
