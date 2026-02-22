@@ -101,3 +101,44 @@ document.querySelectorAll('.project-card').forEach(card => {
     card.style.transform = 'translateY(0)';
   });
 });
+
+
+/* ===============================
+   CONTACT FORM VALIDATION
+================================ */
+const form = document.querySelector('.contact-form');
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  let valid = true;
+  const inputs = form.querySelectorAll('input, textarea');
+
+  inputs.forEach(input => {
+    if (input.value.trim() === '') {
+      input.style.border = '2px solid red';
+      valid = false;
+    } else {
+      input.style.border = '2px solid green';
+    }
+  });
+
+  if (valid) {
+    alert('✅ Message sent successfully!');
+    form.reset();
+    inputs.forEach(i => (i.style.border = 'none'));
+  } else {
+    alert('⚠ Please fill all fields');
+  }
+});
+
+/* ===============================
+   IMAGE FALLBACK
+================================ */
+const profileImg = document.querySelector('.about-image img');
+if (profileImg) {
+  profileImg.onerror = () => {
+    profileImg.src =
+      'https://via.placeholder.com/300x300?text=Profile+Image';
+  };
+}
