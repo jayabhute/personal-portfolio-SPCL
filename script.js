@@ -1,144 +1,147 @@
+// === interactive JavaScript (separate file) ===
+(function() {
+  // ----- smooth scroll + active link + sticky shadow -----
+  const navbar = document.querySelector('.navbar');
+  const navLinks = document.querySelectorAll('.navbar ul li a');
+  const sections = [
+    document.getElementById('home'),
+    document.getElementById('about'),
+    document.getElementById('skills'),
+    document.getElementById('projects'),
+    document.getElementById('contact')
+  ];
 
-/* ===============================
-   SMOOTH SCROLL (Navbar Fix)
-================================ */
-document.querySelectorAll('.navbar a').forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-
-    let targetId = link.getAttribute('href').replace('#', '').toLowerCase();
-
-    // Fix mismatched IDs
-    if (targetId === 'home') targetId = 'home';
-    if (targetId === 'projects') targetId = 'project';
-    if (targetId === 'skills') targetId = 'skills-section';
-
-    let target =
-      document.getElementById(targetId) ||
-      document.querySelector(`.${targetId}`) ||
-      document.querySelector('section');
-
-    if (target) {
-      window.scrollTo({
-        top: target.offsetTop - 60,
-        behavior: 'smooth'
-      });
-    }
-  });
-});
-
-/* ===============================
-   ACTIVE NAV LINK ON SCROLL
-================================ */
-const sections = document.querySelectorAll('header, section');
-const navLinks = document.querySelectorAll('.navbar a');
-
-window.addEventListener('scroll', () => {
-  let current = '';
-
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop - 100;
-    if (scrollY >= sectionTop) {
-      current = section.getAttribute('id') || section.className;
-    }
-  });
-
+  // smooth scroll with offset
   navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href').toLowerCase().includes(current)) {
-      link.classList.add('active');
-    }
-  });
-});
-
-/* ===============================
-   STICKY NAVBAR SHADOW
-================================ */
-const navbar = document.querySelector('.navbar');
-window.addEventListener('scroll', () => {
-  navbar.style.boxShadow =
-    window.scrollY > 30 ? '0 4px 10px rgba(0,0,0,0.2)' : 'none';
-});
-
- ===============================
-   SKILLS BAR ANIMATION
-================================ */
-const skillsSection = document.querySelector('.skills-section');
-const skillBars = document.querySelectorAll('.fill');
-let skillsDone = false;
-
-window.addEventListener('scroll', () => {
-  if (!skillsSection) return;
-
-  const sectionTop = skillsSection.getBoundingClientRect().top;
-  const screenHeight = window.innerHeight / 1.2;
-
-  if (sectionTop < screenHeight && !skillsDone) {
-    skillBars.forEach(bar => {
-      const finalWidth = bar.style.width;
-      bar.style.width = '0';
-      setTimeout(() => {
-        bar.style.transition = 'width 1.5s ease';
-        bar.style.width = finalWidth;
-      }, 100);
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const hash = link.getAttribute('href').substring(1); // remove #
+      let target = document.getElementById(hash);
+      if (!target && hash === 'skills') target = document.getElementById('skills');
+      if (!target && hash === 'projects') target = document.getElementById('projects');
+      if (target) {
+        window.scrollTo({
+          top: target.offsetTop - 70,
+          behavior: 'smooth'
+        });
+      }
     });
-    skillsDone = true;
+  });
+
+  // active link on scroll + shadow
+  function updateActiveNav() {
+    let scrollY = window.scrollY;
+    // navbar shadow
+    navbar.style.boxShadow = scrollY > 30 ? '0 8px 20px rgba(0,0,0,0.15)' : '0 2px 8px rgba(0,0,0,0.1)';
+
+    let activeFound = false;
+    sections.forEach((sec, i) => {
+      if (!sec) return;
+      const offset = sec.offsetTop - 120;
+      const height = sec.offsetHeight;
+      if (scrollY >= offset && scrollY < offset + height) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        if (navLinks[i]) navLinks[i].classList.add('active');
+        activeFound = true;
+      }
+    });
+    // if none (very top), activate home
+    if (!activeFound && scrollY < 200) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      if (navLinks[0]) navLinks[0].classList.add('active');
+    }
   }
-});
+  window.addEventListener('scroll', updateActiveNav);
+  updateActiveNav();
 
+  // ----- SKILL BARS ANIMATION (only once) -----
+  const skillSection = document.querySelector('.skills-section');
+  const fills = document.querySelectorAll('.fill');
+  let animated = false;
 
-
-/* ===============================
-   PROJECT CARD HOVER EFFECT
-================================ */
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mouseenter', () => {
-    card.style.transform = 'translateY(-10px)';
-    card.style.transition = '0.3s';
-  });
-
-  card.addEventListener('mouseleave', () => {
-    card.style.transform = 'translateY(0)';
-  });
-});
-
-
-/* ===============================
-   CONTACT FORM VALIDATION
-================================ */
-const form = document.querySelector('.contact-form');
-
-form.addEventListener('submit', e => {
-  e.preventDefault();
-
-  let valid = true;
-  const inputs = form.querySelectorAll('input, textarea');
-
-  inputs.forEach(input => {
-    if (input.value.trim() === '') {
-      input.style.border = '2px solid red';
-      valid = false;
+  function animateBars() {
+    if (animated) return;
+    const rect = skillSection.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+    if (rect.top < windowHeight - 100) {
+      fills.forEach(bar => {
+        const width = bar.getAttribute('data-width') || bar.style.width; // fallback
+        bar.style.width = width;
+      });
+      animated = true;
+    }
+  }
+  // set initial width to 0% (already from style), but we store target in data-width
+  fills.forEach(bar => {
+    const computed = bar.style.width; // might be empty
+    if (computed && computed !== '0%') {
+      // if already set, keep; else store
     } else {
-      input.style.border = '2px solid green';
+      // get from inline style if present (some may have width hardcoded)
+      const inline = bar.getAttribute('data-width');
+      if (!inline) {
+        // default fallback (from content)
+        const parentSkill = bar.closest('.skill');
+        if (parentSkill) {
+          const percentSpan = parentSkill.querySelector('.skill-title span:last-child');
+          if (percentSpan) {
+            const val = percentSpan.innerText.replace('%','') + '%';
+            bar.setAttribute('data-width', val);
+          }
+        }
+      }
+    }
+    // ensure width start at 0
+    bar.style.width = '0%';
+  });
+
+  window.addEventListener('scroll', animateBars);
+  animateBars(); // check immediately
+
+  // ----- PROJECT CARD HOVER (already in css, but we keep mouse feedback) -----
+  // also manually add interactive feel
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.25s ease, box-shadow 0.3s';
+    });
+  });
+
+  // ----- CONTACT FORM VALIDATION + interactive highlight -----
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+    const inputs = form.querySelectorAll('input, textarea');
+    inputs.forEach(inp => {
+      inp.style.border = '2px solid #d6e4f0'; // reset
+      if (inp.value.trim() === '') {
+        inp.style.border = '2px solid #e55039';
+        valid = false;
+      } else {
+        inp.style.border = '2px solid #78b159';
+      }
+    });
+
+    if (valid) {
+      alert('✅ Message sent! (demo)');
+      form.reset();
+      inputs.forEach(i => i.style.border = '2px solid #d6e4f0');
+    } else {
+      alert('⚠️ Please fill all fields');
     }
   });
 
-  if (valid) {
-    alert('✅ Message sent successfully!');
-    form.reset();
-    inputs.forEach(i => (i.style.border = 'none'));
-  } else {
-    alert('⚠ Please fill all fields');
-  }
-});
+  // optional: reset border on focus
+  form.querySelectorAll('input, textarea').forEach(field => {
+    field.addEventListener('focus', () => field.style.border = '2px solid #4a90e2');
+  });
 
-/* ===============================
-   IMAGE FALLBACK
-================================ */
-const profileImg = document.querySelector('.about-image img');
-if (profileImg) {
-  profileImg.onerror = () => {
-    profileImg.src =
-      'https://via.placeholder.com/300x300?text=Profile+Image';
-  };
-}
+  // ----- image fallback (if jaya.jpg missing) -----
+  const profileImg = document.querySelector('.about-image img');
+  if (profileImg) {
+    profileImg.onerror = () => {
+      profileImg.src = 'https://via.placeholder.com/350x350?text=Jaya+Bhute';
+    };
+  }
+
+})();
